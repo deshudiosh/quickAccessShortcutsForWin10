@@ -4,6 +4,8 @@ import sys
 from pathlib import Path
 from tkinter import Tk, simpledialog
 from tkinter.filedialog import askdirectory
+import subprocess
+
 
 
 def main():
@@ -13,19 +15,19 @@ def main():
     shortcuts = askdirectory(title="Select shortcuts directory", initialdir="C:/QuickAccess")
     if not shortcuts:
         return
+    shortcuts = Path(shortcuts)
 
     target = askdirectory(title="Select shortcut target directory", initialdir="X:/SKYBAR UNIT GHELAMCO/3D")
-
     if not target:
         return
+    target = Path(target)
 
-    name = simpledialog.askstring("name", tk_instance)
+    name = simpledialog.askstring(title="Provide shortcut name",
+                                  prompt="Provide shortcut name",
+                                  initialvalue=target.name)
 
     if not name:
         return
-
-    shortcuts = Path(shortcuts)
-    target = Path(target)
 
     symlink = Path(shortcuts) / (name + " symlink")
     junction = Path(shortcuts) / name
@@ -37,6 +39,9 @@ def main():
     junction_cmd = f'cmd /c mklink /J "{junction}" "{symlink}"'
     print(junction_cmd)
     os.system(junction_cmd)
+
+    # view folder at the end
+    subprocess.Popen(f'explorer {shortcuts}')
 
 
 #  run elevated from here: https://stackoverflow.com/a/41930586
