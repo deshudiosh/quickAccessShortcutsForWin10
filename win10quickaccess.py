@@ -17,12 +17,12 @@ def main():
         return
     shortcuts = Path(shortcuts)
 
-    target = askdirectory(title="Select shortcut target directory", initialdir="X:/SKYBAR UNIT GHELAMCO/3D")
+    target = askdirectory(title="Select shortcut target directory")
     if not target:
         return
     target = Path(target)
 
-    name = simpledialog.askstring(title="Provide shortcut name",
+    name = simpledialog.askstring(title=".",
                                   prompt="Provide shortcut name",
                                   initialvalue=target.name)
 
